@@ -5,7 +5,7 @@ import "reflect-metadata";
 class NameJob {
   constructor(private name: string) {}
 
-  @cronJob("*/2 * * * * *", "printName")
+  @cronJob("*/2 * * * * *", "printName", "Asia/Makassar")
   printName() {
     if (1 !== 1) console.log(this.name);
   }

@@ -1,4 +1,4 @@
-import { ScheduledTask, schedule } from "node-cron";
+import { schedule, ScheduledTask, ScheduleOptions } from "node-cron";
 import { Group, GROUP_SYMBOL, Handler, JOB_SYMBOL } from "./decorators";
 
 export class CronManager {
@@ -14,8 +14,10 @@ export class CronManager {
     //initially instantiate each class name instance to null
     groups.forEach((value) => {
       const { className } = value;
+
       if (this.instanceMap.has(className))
         throw new Error(`duplicate key for ${className}`);
+
       this.instanceMap.set(className, null);
     });
   }
@@ -30,8 +32,10 @@ export class CronManager {
       throw new Error(
         `class ${Class.name} has not been decorated with @cronGroup`
       );
+
     if (Class.name !== instance.constructor.name)
       throw new Error(`instance is not of type ${Class.name}`);
+
     this.instanceMap.set(Class.name, instance);
   }
 
@@ -53,20 +57,31 @@ export class CronManager {
 
       //for each handler create the scheduled task and add it into all jobs first
       handlers.forEach((handler) => {
-        const { func, cronExpression, className, handlerTag } = handler;
+        const { func, cronExpression, className, handlerTag, timezone } =
+          handler;
+
         if (!this.instanceMap.has(className))
           throw new Error(
-            `class ${className} was not decorateed with cronGroup tag`
+            `class ${className} was not decorated with cronGroup tag`
           );
+
         const instance = this.instanceMap.get(className);
+
         if (!instance)
           throw new Error(`class ${className} has not been registered`);
+
+        const options = { scheduled: false } as ScheduleOptions;
+
+        if (timezone && timezone !== "") {
+          options.timezone = timezone;
+        }
+
         const job = schedule(
           cronExpression,
           () => {
             instance[func]();
           },
-          { scheduled: false }
+          options
         );
 
         this.allJobs.push(job); //add the job to the global list of jobs.

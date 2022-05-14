@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import * as cron from "node-cron";
+import * as moment from "moment-timezone";
 
 export const JOB_SYMBOL = Symbol("job");
 export interface Handler {
@@ -8,6 +9,7 @@ export interface Handler {
   func: string;
   constructor: Function;
   className: string;
+  timezone: string;
 }
 
 /**
@@ -19,7 +21,8 @@ export interface Handler {
  */
 export function cronJob(
   cronExpression: string,
-  handlerTag?: string
+  handlerTag?: string,
+  timezone?: string
 ): MethodDecorator {
   return function (
     target: Object,
@@ -27,17 +30,28 @@ export function cronJob(
     descriptor: PropertyDescriptor
   ) {
     const isValid = cron.validate(cronExpression);
+
     if (!isValid)
       throw new Error(`${cronExpression} is not a valid cron expression`);
+
+    if (timezone) {
+      const isTimezone = moment.tz.zone(timezone);
+
+      if (!isTimezone) throw new Error(`${timezone} is not a valid timezone`);
+    }
+
     const allHandlers: Handler[] =
       Reflect.getMetadata(JOB_SYMBOL, target.constructor) || [];
+
     allHandlers.push({
       handlerTag,
       cronExpression,
       func: propertyKey as string,
       constructor: target.constructor,
       className: target.constructor.name,
+      timezone: timezone ?? "",
     });
+
     Reflect.defineMetadata(JOB_SYMBOL, allHandlers, target.constructor);
   };
 }

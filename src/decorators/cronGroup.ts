@@ -14,7 +14,9 @@ export interface Group {
 export function cronGroup(groupTag?: string): ClassDecorator {
   return function (constructor: Function) {
     const groups: Group[] = Reflect.getMetadata(GROUP_SYMBOL, Reflect) || [];
+
     groups.push({ groupTag, constructor, className: constructor.name });
+
     Reflect.defineMetadata(GROUP_SYMBOL, groups, Reflect);
   };
 }

@@ -28,6 +28,7 @@
     "test": "rimraf lib && yarn build && mocha lib/__test__ --recursive --timeout 25000 --exit"
   },
   "dependencies": {
+    "moment-timezone": "^0.5.34",
     "node-cron": "^3.0.0",
     "reflect-metadata": "^0.1.13"
   },
