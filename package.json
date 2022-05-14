@@ -1,6 +1,6 @@
 {
   "name": "node-cron-management",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Improvement of node-cron package",
   "main": "lib/index.js",
   "license": "ISC",
