@@ -24,6 +24,7 @@
     "preversion": "yarn format",
     "version": "yarn format && git add -A src",
     "postversion": "git push && git push --tags",
+    "gitpush": "yarn version && yarn postversion",
     "test": "rimraf lib && yarn build && mocha lib/__test__ --recursive --timeout 25000 --exit"
   },
   "dependencies": {
