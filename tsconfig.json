@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "composite": true,
+    // "target": "es5",
+    "target": "es2015",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "module": "commonjs",
+    "declaration": true,
+    "outDir": "./lib",
+    "strict": true,
+    "noUnusedLocals": true,
+    "typeRoots": ["./types", "./node_modules/@types"]
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "**/__test__/*S"]
+}
