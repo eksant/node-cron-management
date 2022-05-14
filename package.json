@@ -1,5 +1,5 @@
 {
-  "name": "node-cron-manager",
+  "name": "node-cron-management",
   "version": "0.1.0",
   "description": "Improvement of node-cron package",
   "main": "lib/index.js",
