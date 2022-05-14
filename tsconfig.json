@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "composite": true,
-    // "target": "es5",
     "target": "es2015",
     "allowJs": true,
     "skipLibCheck": true,
@@ -12,8 +11,9 @@
     "emitDecoratorMetadata": true,
     "module": "commonjs",
     "declaration": true,
-    "outDir": "./lib",
     "strict": true,
+    "outDir": "./lib",
+    "rootDir": "src",
     "noUnusedLocals": true,
     "typeRoots": ["./types", "./node_modules/@types"]
   },
